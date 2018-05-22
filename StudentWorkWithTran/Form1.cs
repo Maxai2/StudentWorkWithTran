@@ -12,7 +12,7 @@ namespace StudentWorkWithTran
 {
     public partial class fStudentWork : Form
     {
-        private Library _db = new Library();
+        public Library _db = new Library();
         private bool notchange = true;
 
 
@@ -23,10 +23,11 @@ namespace StudentWorkWithTran
         {
             InitializeComponent();
 
+
             if (!_db.OpenConnection())
             {
                 MessageBox.Show("Some Errors!");
-                Close();
+                return;
             }
 
             groups = _db.GetGroups();
@@ -52,7 +53,19 @@ namespace StudentWorkWithTran
         {
             if (_db.UpdateStudent(tbFirstName.Text, tbLastName.Text, Convert.ToInt32(tbTerm.Text), cbCurrentGroup.SelectedIndex, students[lbStudentList.SelectedIndex].Id))
             {
-                students[]
+                int index = lbStudentList.SelectedIndex;
+
+                students[index].FirstName = tbFirstName.Text;
+                students[index].LastName = tbLastName.Text;
+                students[index].Term = Convert.ToInt32(tbTerm.Text);
+                students[index].Id_Group = cbCurrentGroup.SelectedIndex;
+
+                lbStudentList.DataSource = null;
+                lbStudentList.Items.Clear();
+
+                lbStudentList.DataSource = students;
+                lbStudentList.DisplayMember = "Info";
+                lbStudentList.ValueMember = "Id";
             }
         }
         //-------------------------------------------------------------------------
@@ -60,7 +73,14 @@ namespace StudentWorkWithTran
         {
             if (_db.DeleteStudent(students[lbStudentList.SelectedIndex].Id))
             {
+                students.RemoveAt(lbStudentList.SelectedIndex);
 
+                lbStudentList.DataSource = null;
+                lbStudentList.Items.Clear();
+
+                lbStudentList.DataSource = students;
+                lbStudentList.DisplayMember = "Info";
+                lbStudentList.ValueMember = "Id";
             }
         }
         //-------------------------------------------------------------------------
@@ -142,7 +162,7 @@ namespace StudentWorkWithTran
         //-------------------------------------------------------------------------
         private void bAdd_Click(object sender, EventArgs e)
         {
-            var addWindow = new AddWindow(groups) { Owner = this };
+            var addWindow = new AddWindow(groups, _db) { Owner = this };
 
             if (addWindow.ShowDialog() == DialogResult.OK)
             {

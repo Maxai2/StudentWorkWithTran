@@ -9,9 +9,9 @@ using System.Configuration;
 
 namespace StudentWorkWithTran
 {
-    class Library
+    public class Library
     {
-        string ConnectionString = ConfigurationManager.ConnectionStrings["Employees"].ConnectionString;
+        string ConnectionString = ConfigurationManager.ConnectionStrings["Library_ru"].ConnectionString;
 
         private SqlConnection _connection;
         //--------------------------------------------------------------------
@@ -148,6 +148,39 @@ namespace StudentWorkWithTran
             }
         }
         //--------------------------------------------------------------------
+        public int GetNewStudId()
+        {
+            try
+            {
+                SqlCommand command = _connection.CreateCommand();
+                command.CommandText = "SELECT MAX(Id) + 1 FROM Students";
 
+                int MaxIndex = Convert.ToInt32(command.ExecuteScalar());
+
+                return MaxIndex;
+            }
+            catch (SqlException)
+            {
+                return -1;
+            }
+        }
+        //--------------------------------------------------------------------
+        public int GetNewGroupId()
+        {
+            try
+            {
+                SqlCommand command = _connection.CreateCommand();
+                command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
+
+                int MaxIndex = Convert.ToInt32(command.ExecuteScalar());
+
+                return MaxIndex;
+            }
+            catch (SqlException)
+            {
+                return -1;
+            }
+        }
+        //--------------------------------------------------------------------
     }
 }

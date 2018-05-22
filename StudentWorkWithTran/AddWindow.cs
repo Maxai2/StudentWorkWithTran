@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,13 @@ namespace StudentWorkWithTran
     {
         public Student student { get; set; }
 
-        public AddWindow(List<Group> groups)
+        Library _db;
+
+        public AddWindow(List<Group> groups, Library db)
         {
             InitializeComponent();
+
+            _db = db;
 
             cbExistGroup.DataSource = groups;
             cbExistGroup.DisplayMember = "Info";
@@ -27,7 +32,25 @@ namespace StudentWorkWithTran
         //-------------------------------------------------------
         private void bOk_Click(object sender, EventArgs e)
         {
+            if (tbFirstName.Text == "" || tbLastName.Text == "")
+            {
+                MessageBox.Show("First or Last name is empty!");
+                return;
+            }
 
+            try
+            {
+                SqlTransaction tran = _db.
+            }
+            catch (SqlException)
+            {
+
+                throw;
+            }
+
+            student.FirstName = tbFirstName.Text;
+            student.LastName = tbLastName.Text;
+            student.Term = Convert.ToInt32(tbTerm.Text);
         }
         //-------------------------------------------------------
         private bool change = true;
