@@ -28,17 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // fStudentWork
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "fStudentWork";
-            this.Text = "Students Work";
-            this.ResumeLayout(false);
-
             this.cbGroups = new System.Windows.Forms.ComboBox();
             this.lbStudentList = new System.Windows.Forms.ListBox();
             this.tbFirstName = new System.Windows.Forms.TextBox();
@@ -51,8 +40,8 @@
             this.lGroup = new System.Windows.Forms.Label();
             this.cbCurrentGroup = new System.Windows.Forms.ComboBox();
             this.gbStudentInfo = new System.Windows.Forms.GroupBox();
-            this.lTerm = new System.Windows.Forms.Label();
             this.tbTerm = new System.Windows.Forms.TextBox();
+            this.lTerm = new System.Windows.Forms.Label();
             this.gbStudentInfo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,6 +110,7 @@
             this.bAdd.TabIndex = 8;
             this.bAdd.Text = "Add";
             this.bAdd.UseVisualStyleBackColor = true;
+            this.bAdd.Click += new System.EventHandler(this.bAdd_Click);
             // 
             // lFirstName
             // 
@@ -183,6 +173,14 @@
             this.gbStudentInfo.TabStop = false;
             this.gbStudentInfo.Text = "Student Info";
             // 
+            // tbTerm
+            // 
+            this.tbTerm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbTerm.Location = new System.Drawing.Point(88, 100);
+            this.tbTerm.Name = "tbTerm";
+            this.tbTerm.Size = new System.Drawing.Size(121, 21);
+            this.tbTerm.TabIndex = 14;
+            // 
             // lTerm
             // 
             this.lTerm.AutoSize = true;
@@ -191,14 +189,6 @@
             this.lTerm.Size = new System.Drawing.Size(41, 17);
             this.lTerm.TabIndex = 13;
             this.lTerm.Text = "Term";
-            // 
-            // tbTerm
-            // 
-            this.tbTerm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbTerm.Location = new System.Drawing.Point(88, 100);
-            this.tbTerm.Name = "tbTerm";
-            this.tbTerm.Size = new System.Drawing.Size(121, 21);
-            this.tbTerm.TabIndex = 14;
             // 
             // fStudentWork
             // 
@@ -216,6 +206,7 @@
             this.gbStudentInfo.ResumeLayout(false);
             this.gbStudentInfo.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion

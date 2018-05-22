@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace StudentWorkWithTran
 {
     class Library
     {
-        private string ConnectionString = "Server=(local);Database=Library_ru;Trusted_Connection=True;";
+        string ConnectionString = ConfigurationManager.ConnectionStrings["Employees"].ConnectionString;
 
         private SqlConnection _connection;
         //--------------------------------------------------------------------
