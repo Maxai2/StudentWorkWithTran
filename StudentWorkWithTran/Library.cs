@@ -32,7 +32,7 @@ namespace StudentWorkWithTran
         {
             if (_connection != null)
                 _connection.Close();
-        }
+        } 
         //--------------------------------------------------------------------
         public List<Student> GetStudents(int groupId)
         {

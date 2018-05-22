@@ -116,7 +116,7 @@ namespace StudentWorkWithTran
 
                 tbFirstName.Enabled = true;
                 tbLastName.Enabled = true;
-                tbTerm.Enabled = true;
+                tbTerm.Enabled = true; 
                 cbCurrentGroup.Enabled = true;
                 notchange = true;
 
