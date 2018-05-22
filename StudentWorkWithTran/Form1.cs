@@ -17,7 +17,7 @@ namespace StudentWorkWithTran
 
 
         List<Student> students = new List<Student>();
-        List<Group> groups = new List<Group>();
+        public List<Group> groups = new List<Group>();
         //-------------------------------------------------------------------------
         public fStudentWork()
         {
@@ -50,12 +50,18 @@ namespace StudentWorkWithTran
         //-------------------------------------------------------------------------
         private void bUpdate_Click(object sender, EventArgs e)
         {
-            _db.UpdateStudent(tbFirstName.Text, tbLastName.Text, Convert.ToInt32(tbTerm.Text), cbCurrentGroup.SelectedIndex, students[lbStudentList.SelectedIndex].Id);
+            if (_db.UpdateStudent(tbFirstName.Text, tbLastName.Text, Convert.ToInt32(tbTerm.Text), cbCurrentGroup.SelectedIndex, students[lbStudentList.SelectedIndex].Id))
+            {
+                students[]
+            }
         }
         //-------------------------------------------------------------------------
         private void bDelete_Click(object sender, EventArgs e)
         {
-            _db.DeleteStudent(students[lbStudentList.SelectedIndex].Id);
+            if (_db.DeleteStudent(students[lbStudentList.SelectedIndex].Id))
+            {
+
+            }
         }
         //-------------------------------------------------------------------------
         private void cbGroups_SelectedIndexChanged(object sender, EventArgs e)
@@ -136,7 +142,12 @@ namespace StudentWorkWithTran
         //-------------------------------------------------------------------------
         private void bAdd_Click(object sender, EventArgs e)
         {
+            var addWindow = new AddWindow(groups) { Owner = this };
 
+            if (addWindow.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
         }
         //-------------------------------------------------------------------------
 

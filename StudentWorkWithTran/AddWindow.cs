@@ -12,9 +12,32 @@ namespace StudentWorkWithTran
 {
     public partial class AddWindow : Form
     {
-        public AddWindow()
+        public Student student { get; set; }
+
+        public AddWindow(List<Group> groups)
         {
             InitializeComponent();
+
+            cbExistGroup.DataSource = groups;
+            cbExistGroup.DisplayMember = "Info";
+            cbExistGroup.ValueMember = "Id";
+
+            tbTerm.Text = "1";
+        }
+        //-------------------------------------------------------
+        private void bOk_Click(object sender, EventArgs e)
+        {
+
+        }
+        //-------------------------------------------------------
+        private bool change = true;
+
+        private void rbGroup_CheckedChanged(object sender, EventArgs e)
+        {
+            cbExistGroup.Enabled = !change;
+            tbNewGroup.Enabled = change;
+
+            change = !change;
         }
     }
 }
