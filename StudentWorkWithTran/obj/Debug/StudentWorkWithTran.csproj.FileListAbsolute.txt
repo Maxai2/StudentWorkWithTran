@@ -20,3 +20,14 @@ C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWo
 C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.CoreCompileInputs.cache
 C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.exe
 C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.pdb
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe.config
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.pdb
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csprojAssemblyReference.cache
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.AddWindow.resources
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.fStudentWork.resources
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.Properties.Resources.resources
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.GenerateResource.cache
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.CoreCompileInputs.cache
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.exe
+D:\Joker\Documents\Visual Studio 2017\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.pdb

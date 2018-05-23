@@ -12,7 +12,7 @@ namespace StudentWorkWithTran
 {
     public partial class fStudentWork : Form
     {
-        public Library _db = new Library();
+        public Library _db = new Library("Library_ru");
         private bool notchange = true;
 
         List<Student> students = new List<Student>();
@@ -181,6 +181,41 @@ namespace StudentWorkWithTran
                     students.Add(addWindow.student);
                 }
 
+                if (students != null)
+                {
+                    lbStudentList.DataSource = null;
+                    lbStudentList.Items.Clear();
+
+                    lbStudentList.DataSource = students;
+                    lbStudentList.DisplayMember = "Info";
+                    lbStudentList.ValueMember = "Id";
+                }
+
+                int lastIndexGroupList = cbGroups.SelectedIndex;
+
+                if (groupList != null)
+                {
+                    cbGroups.DataSource = null;
+                    cbGroups.Items.Clear();
+
+                    cbGroups.DataSource = groupList;
+                    cbGroups.DisplayMember = "Info";
+                    cbGroups.ValueMember = "Id";
+                    cbGroups.SelectedIndex = lastIndexGroupList;
+                }
+
+                int lastIndexCurrentGroup = cbCurrentGroup.SelectedIndex;
+
+                if (groupStud != null)
+                {
+                    cbCurrentGroup.DataSource = null;
+                    cbCurrentGroup.Items.Clear();
+
+                    cbCurrentGroup.DataSource = groupStud;
+                    cbCurrentGroup.DisplayMember = "Info";
+                    cbCurrentGroup.ValueMember = "Id";
+                    cbCurrentGroup.SelectedIndex = lastIndexCurrentGroup;
+                }
 
             }
         }

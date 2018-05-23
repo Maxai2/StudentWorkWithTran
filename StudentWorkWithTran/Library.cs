@@ -1,29 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Data.Common;
 
 namespace StudentWorkWithTran
 {
     public class Library
     {
-        string ConnectionString = ConfigurationManager.ConnectionStrings["Library_ru"].ConnectionString;
+        private string _connectionString;
+        private DbConnection _connection;
+        private DbProviderFactory _factory;
+        //--------------------------------------------------------------------
+        public Library(string ConnectionStringName)
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[ConnectionStringName];
 
-        private SqlConnection _connection;
+            _connectionString = settings.ConnectionString;
+
+            _factory = DbProviderFactories.GetFactory(settings.ProviderName);
+        }
         //--------------------------------------------------------------------
         public bool OpenConnection()
         {
             try
             {
-                _connection = new SqlConnection(ConnectionString);
+                _connection = _factory.CreateConnection();
+                _connection.ConnectionString = _connectionString;
                 _connection.Open();
                 return true;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return false;
             }
@@ -39,13 +49,15 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Students WHERE Id_Group = @groupId";
-
-                SqlParameter parameter = new SqlParameter("groupId", groupId);
+                
+                DbParameter parameter = _factory.CreateParameter();
+                parameter.ParameterName = "groupId";
+                parameter.Value = groupId;
                 command.Parameters.Add(parameter);
 
-                SqlDataReader reader = command.ExecuteReader();
+                DbDataReader reader = command.ExecuteReader();
                 List<Student> students = new List<Student>();
 
                 while (reader.Read())
@@ -64,7 +76,7 @@ namespace StudentWorkWithTran
                 reader.Close();
                 return students;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return null;
             }
@@ -74,9 +86,9 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Groups";
-                SqlDataReader reader = command.ExecuteReader();
+                DbDataReader reader = command.ExecuteReader();
                 List<Group> groups = new List<Group>();
 
                 while (reader.Read())
@@ -93,7 +105,7 @@ namespace StudentWorkWithTran
                 reader.Close();
                 return groups;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return null;
             }
@@ -103,9 +115,9 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Faculties";
-                SqlDataReader reader = command.ExecuteReader();
+                DbDataReader reader = command.ExecuteReader();
                 List<Faculties> faculties = new List<Faculties>();
 
                 while (reader.Read())
@@ -121,7 +133,7 @@ namespace StudentWorkWithTran
                 reader.Close();
                 return faculties;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return null;
             }
@@ -131,20 +143,35 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.CommandText = "UPDATE Students SET FirstName = @FirstName, LastName = @LastName, Term = @Term, Id_Group = @Id_Group WHERE Id = @Id";
 
-                command.Parameters.AddWithValue("FirstName", FirstName);
-                command.Parameters.AddWithValue("LastName", LastName);
-                command.Parameters.AddWithValue("Term", Term);
-                command.Parameters.AddWithValue("Id_Group", Id_Group);
-                command.Parameters.AddWithValue("Id", Id);
+                DbParameter parameter = _factory.CreateParameter();
+                parameter.ParameterName = "FirstName";
+                parameter.Value = FirstName;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "LastName";
+                parameter.Value = LastName;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Term";
+                parameter.Value = Term;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Id_Group";
+                parameter.Value = Id_Group;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Id";
+                parameter.Value = Id;
+                command.Parameters.Add(parameter);
 
                 command.ExecuteNonQuery();
 
                 return true;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return false;
             }
@@ -158,12 +185,15 @@ namespace StudentWorkWithTran
 
                 if (result == DialogResult.Yes)
                 {
-                    SqlTransaction transaction = _connection.BeginTransaction();
+                    DbTransaction transaction = _connection.BeginTransaction();
 
-                    SqlCommand command = _connection.CreateCommand();
+                    DbCommand command = _connection.CreateCommand();
                     command.Transaction = transaction;
 
-                    SqlParameter parameter = new SqlParameter("Id", Id);
+                    DbParameter parameter = _factory.CreateParameter();
+                    parameter.ParameterName = "Id";
+                    parameter.Value = Id;
+                    command.Parameters.Add(parameter);
 
                     command.CommandText = "DELETE FROM S_Cards WHERE Id_Student = @Id";
                     command.Parameters.Add(parameter);
@@ -178,7 +208,7 @@ namespace StudentWorkWithTran
 
                 return false;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return false;
             }
@@ -188,10 +218,12 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlTransaction transaction = _connection.BeginTransaction();
+                DbTransaction transaction = _connection.BeginTransaction();
 
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
+
+                DbParameter parameter = _factory.CreateParameter();
 
                 if (Id_Group == -1)
                 {
@@ -202,9 +234,18 @@ namespace StudentWorkWithTran
                     Id_Group = maxIndexGroup;
 
                     command.CommandText = "INSERT INTO Groups (Id, [Name], Id_Faculty) VALUES (@Id, @GroupName, @Id_Faculties)";
-                    command.Parameters.AddWithValue("Id", Id_Group);
-                    command.Parameters.AddWithValue("GroupName", GroupName);
-                    command.Parameters.AddWithValue("Id_Faculties", Id_Faculties);
+
+                    parameter.ParameterName = "Id";
+                    parameter.Value = Id_Group;
+                    command.Parameters.Add(parameter);
+
+                    parameter.ParameterName = "GroupName";
+                    parameter.Value = GroupName;
+                    command.Parameters.Add(parameter);
+
+                    parameter.ParameterName = "Id_Faculties";
+                    parameter.Value = Id_Faculties;
+                    command.Parameters.Add(parameter);
 
                     command.ExecuteNonQuery();
                 }
@@ -215,18 +256,32 @@ namespace StudentWorkWithTran
 
                 command.CommandText = "INSERT INTO Students (Id, FirstName, LastName, Term, Id_Group) VALUES (@Id, @FirstName, @LastName, @Term, @Id_Group)";
 
-                command.Parameters.AddWithValue("Id", maxIndexStud);
-                command.Parameters.AddWithValue("FirstName", FirstName);
-                command.Parameters.AddWithValue("LastName", LastName);
-                command.Parameters.AddWithValue("Term", Term);
-                command.Parameters.AddWithValue("Id_Group", Id_Group);
+                parameter.ParameterName = "Id";
+                parameter.Value = maxIndexStud;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "FirstName";
+                parameter.Value = FirstName;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "LastName";
+                parameter.Value = LastName;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Term";
+                parameter.Value = Term;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Id_Group";
+                parameter.Value = Id_Group;
+                command.Parameters.Add(parameter);
 
                 command.ExecuteNonQuery();
 
                 transaction.Commit();
                 return true;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return false;
             }
@@ -236,18 +291,29 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlCommand command = new SqlCommand();
+                DbCommand command = _connection.CreateCommand();
 
                 command.CommandText = "INSERT INTO Groups (Id, Name, Id_Group) VALUES (@Id, @GroupName, @Id_Faculties)";
-                command.Parameters.AddWithValue("Id", GetNewGroupId());
-                command.Parameters.AddWithValue("GroupName", GroupName);
-                command.Parameters.AddWithValue("Id_Faculties", Id_Faculties);
 
+                DbParameter parameter = _factory.CreateParameter();
+
+                parameter.ParameterName = "Id";
+                parameter.Value = GetNewGroupId();
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "GroupName";
+                parameter.Value = GroupName;
+                command.Parameters.Add(parameter);
+
+                parameter.ParameterName = "Id_Faculties";
+                parameter.Value = Id_Faculties;
+                command.Parameters.Add(parameter);
+                
                 command.ExecuteNonQuery();
 
                 return true;
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return false;
             }
@@ -257,9 +323,9 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlTransaction transaction = _connection.BeginTransaction();
+                DbTransaction transaction = _connection.BeginTransaction();
 
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
                 command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
@@ -267,7 +333,7 @@ namespace StudentWorkWithTran
                 transaction.Commit();
                 return Convert.ToInt32(command.ExecuteScalar());
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return -1;
             }
@@ -277,9 +343,9 @@ namespace StudentWorkWithTran
         {
             try
             {
-                SqlTransaction transaction = _connection.BeginTransaction();
+                DbTransaction transaction = _connection.BeginTransaction();
 
-                SqlCommand command = _connection.CreateCommand();
+                DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
                 command.CommandText = "SELECT MAX(Id) + 1 FROM Student";
@@ -287,7 +353,7 @@ namespace StudentWorkWithTran
                 transaction.Commit();
                 return Convert.ToInt32(command.ExecuteScalar());
             }
-            catch (SqlException)
+            catch (DbException)
             {
                 return -1;
             }
