@@ -150,7 +150,6 @@
             this.cbCurrentGroup.Name = "cbCurrentGroup";
             this.cbCurrentGroup.Size = new System.Drawing.Size(121, 23);
             this.cbCurrentGroup.TabIndex = 12;
-            this.cbCurrentGroup.SelectedIndexChanged += new System.EventHandler(this.cbCurrentGroup_SelectedIndexChanged);
             // 
             // gbStudentInfo
             // 

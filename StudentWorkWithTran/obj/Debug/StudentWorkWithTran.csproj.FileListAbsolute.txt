@@ -9,3 +9,14 @@ C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debu
 C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.CoreCompileInputs.cache
 C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.exe
 C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.pdb
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe.config
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.pdb
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csprojResolveAssemblyReference.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.AddWindow.resources
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.fStudentWork.resources
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.Properties.Resources.resources
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.GenerateResource.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.CoreCompileInputs.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.exe
+C:\Users\Ali\Documents\Visual Studio 2017\Projects\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.pdb

@@ -178,6 +178,7 @@
             // 
             // bAddStudent
             // 
+            this.bAddStudent.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.bAddStudent.Location = new System.Drawing.Point(83, 256);
             this.bAddStudent.Name = "bAddStudent";
             this.bAddStudent.Size = new System.Drawing.Size(75, 23);

@@ -16,7 +16,8 @@ namespace StudentWorkWithTran
         private bool notchange = true;
 
         List<Student> students = new List<Student>();
-        public List<Group> groups = new List<Group>();
+        public List<Group> groupList = new List<Group>();
+        List<Group> groupStud = new List<Group>();
         //-------------------------------------------------------------------------
         public fStudentWork()
         {
@@ -28,11 +29,12 @@ namespace StudentWorkWithTran
                 Close();
             }
 
-            groups = _db.GetGroups();
+            groupList = _db.GetGroups();
+            groupStud = _db.GetGroups();
 
-            if (groups != null)
+            if (groupList != null)
             {
-                cbGroups.DataSource = groups;
+                cbGroups.DataSource = groupList;
                 cbGroups.DisplayMember = "Info";
                 cbGroups.ValueMember = "Id";
             }
@@ -133,7 +135,7 @@ namespace StudentWorkWithTran
                 tbLastName.Text = students[index].LastName;
                 tbTerm.Text = Convert.ToString(students[index].Term);
 
-                cbCurrentGroup.DataSource = groups;
+                cbCurrentGroup.DataSource = groupStud;
                 cbCurrentGroup.DisplayMember = "Info";
                 cbCurrentGroup.ValueMember = "Id";
                 cbCurrentGroup.SelectedIndex = cbGroups.SelectedIndex;
@@ -154,17 +156,32 @@ namespace StudentWorkWithTran
             _db.CloseConnection();
         }
         //-------------------------------------------------------------------------
-        private void cbCurrentGroup_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-        //-------------------------------------------------------------------------
         private void bAdd_Click(object sender, EventArgs e)
         {
-            var addWindow = new AddWindow(groups, _db) { Owner = this };
+            var addWindow = new AddWindow(groupList, _db) { Owner = this };
 
             if (addWindow.ShowDialog() == DialogResult.OK)
             {
-                
+                if (addWindow.group != null && addWindow.student != null)
+                {
+                    groupList.Add(addWindow.group);
+                    groupStud.Add(addWindow.group);
+
+                    students.Add(addWindow.student);
+                }
+                else
+                if (addWindow.group != null)
+                {
+                    groupList.Add(addWindow.group);
+                    groupStud.Add(addWindow.group);
+                }
+                else
+                if (addWindow.student != null)
+                {
+                    students.Add(addWindow.student);
+                }
+
+
             }
         }
         //-------------------------------------------------------------------------

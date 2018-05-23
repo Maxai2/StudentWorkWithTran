@@ -154,18 +154,25 @@ namespace StudentWorkWithTran
         {
             try
             {
-                var result = MessageBox.Show("Delete?", "Caution!", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("When deleting a student, the records from the student card are deleted, you agree?", "Caution!", MessageBoxButtons.YesNo);
 
                 if (result == DialogResult.Yes)
                 {
+                    SqlTransaction transaction = _connection.BeginTransaction();
+
                     SqlCommand command = _connection.CreateCommand();
-                    command.CommandText = "DELETE FROM Students WHERE Id = @Id";
+                    command.Transaction = transaction;
 
                     SqlParameter parameter = new SqlParameter("Id", Id);
-                    command.Parameters.Add(parameter);
 
+                    command.CommandText = "DELETE FROM S_Cards WHERE Id_Student = @Id";
+                    command.Parameters.Add(parameter);
                     command.ExecuteNonQuery();
 
+                    command.CommandText = "DELETE FROM Students WHERE Id = @Id";
+                    command.ExecuteNonQuery();
+
+                    transaction.Commit();
                     return true;
                 }
 
@@ -177,37 +184,7 @@ namespace StudentWorkWithTran
             }
         }
         //--------------------------------------------------------------------
-        public int GetNewStudId()
-        {
-            try
-            {
-                SqlCommand command = _connection.CreateCommand();
-                command.CommandText = "SELECT MAX(Id) + 1 FROM Students";
-
-                return Convert.ToInt32(command.ExecuteScalar());
-            }
-            catch (SqlException)
-            {
-                return -1;
-            }
-        }
-        //--------------------------------------------------------------------
-        public int GetNewGroupId()
-        {
-            try
-            {
-                SqlCommand command = _connection.CreateCommand();
-                command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
-
-                return Convert.ToInt32(command.ExecuteScalar());
-            }
-            catch (SqlException)
-            {
-                return -1;
-            }
-        }
-        //--------------------------------------------------------------------
-        public bool AddStudentGroup(string FirstName, string LastName, int Term, int Id_Group = 0, string GroupName = "", int Id_Faculties = 0)
+        public bool AddStudentGroup(string FirstName, string LastName, int Term, int Id_Group = -1, string GroupName = "", int Id_Faculties = 0)
         {
             try
             {
@@ -216,9 +193,13 @@ namespace StudentWorkWithTran
                 SqlCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
-                if (Id_Group != 0)
+                if (Id_Group == -1)
                 {
-                    Id_Group = GetNewGroupId();
+                    command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
+
+                    int maxIndexGroup = Convert.ToInt32(command.ExecuteScalar());
+
+                    Id_Group = maxIndexGroup;
 
                     command.CommandText = "INSERT INTO Groups (Id, [Name], Id_Faculty) VALUES (@Id, @GroupName, @Id_Faculties)";
                     command.Parameters.AddWithValue("Id", Id_Group);
@@ -228,8 +209,13 @@ namespace StudentWorkWithTran
                     command.ExecuteNonQuery();
                 }
 
+                command.CommandText = "SELECT MAX(Id) + 1 FROM Students";
+
+                int maxIndexStud = Convert.ToInt32(command.ExecuteScalar());
+
                 command.CommandText = "INSERT INTO Students (Id, FirstName, LastName, Term, Id_Group) VALUES (@Id, @FirstName, @LastName, @Term, @Id_Group)";
-                command.Parameters.AddWithValue("Id", GetNewStudId());
+
+                command.Parameters.AddWithValue("Id", maxIndexStud);
                 command.Parameters.AddWithValue("FirstName", FirstName);
                 command.Parameters.AddWithValue("LastName", LastName);
                 command.Parameters.AddWithValue("Term", Term);
@@ -250,12 +236,60 @@ namespace StudentWorkWithTran
         {
             try
             {
+                SqlCommand command = new SqlCommand();
 
+                command.CommandText = "INSERT INTO Groups (Id, Name, Id_Group) VALUES (@Id, @GroupName, @Id_Faculties)";
+                command.Parameters.AddWithValue("Id", GetNewGroupId());
+                command.Parameters.AddWithValue("GroupName", GroupName);
+                command.Parameters.AddWithValue("Id_Faculties", Id_Faculties);
+
+                command.ExecuteNonQuery();
+
+                return true;
             }
             catch (SqlException)
             {
+                return false;
+            }
+        }
+        //--------------------------------------------------------------------
+        public int GetNewGroupId()
+        {
+            try
+            {
+                SqlTransaction transaction = _connection.BeginTransaction();
 
-                throw;
+                SqlCommand command = _connection.CreateCommand();
+                command.Transaction = transaction;
+
+                command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
+
+                transaction.Commit();
+                return Convert.ToInt32(command.ExecuteScalar());
+            }
+            catch (SqlException)
+            {
+                return -1;
+            }
+        }
+        //--------------------------------------------------------------------
+        public int GetNewStudId()
+        {
+            try
+            {
+                SqlTransaction transaction = _connection.BeginTransaction();
+
+                SqlCommand command = _connection.CreateCommand();
+                command.Transaction = transaction;
+
+                command.CommandText = "SELECT MAX(Id) + 1 FROM Student";
+
+                transaction.Commit();
+                return Convert.ToInt32(command.ExecuteScalar());
+            }
+            catch (SqlException)
+            {
+                return -1;
             }
         }
         //--------------------------------------------------------------------
