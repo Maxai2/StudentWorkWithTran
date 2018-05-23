@@ -15,7 +15,6 @@ namespace StudentWorkWithTran
         public Library _db = new Library();
         private bool notchange = true;
 
-
         List<Student> students = new List<Student>();
         public List<Group> groups = new List<Group>();
         //-------------------------------------------------------------------------
@@ -23,11 +22,10 @@ namespace StudentWorkWithTran
         {
             InitializeComponent();
 
-
             if (!_db.OpenConnection())
             {
                 MessageBox.Show("Some Errors!");
-                return;
+                Close();
             }
 
             groups = _db.GetGroups();

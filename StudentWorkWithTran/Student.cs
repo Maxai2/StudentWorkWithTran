@@ -17,6 +17,5 @@ namespace StudentWorkWithTran
         public string Info { get { return StudFirstLastName(); } }
         //-------------------------------------------------------------------------
         public string StudFirstLastName() => String.Format($"{FirstName} {LastName}");
-
     }
 }

@@ -33,7 +33,7 @@ namespace StudentWorkWithTran
         {
             if (_connection != null)
                 _connection.Close();
-        } 
+        }
         //--------------------------------------------------------------------
         public List<Student> GetStudents(int groupId)
         {
@@ -75,7 +75,7 @@ namespace StudentWorkWithTran
             try
             {
                 SqlCommand command = _connection.CreateCommand();
-                command.CommandText = "SELECT Id, Name FROM Groups";
+                command.CommandText = "SELECT * FROM Groups";
                 SqlDataReader reader = command.ExecuteReader();
                 List<Group> groups = new List<Group>();
 
@@ -85,12 +85,41 @@ namespace StudentWorkWithTran
 
                     group.Id = Convert.ToInt32(reader["Id"]);
                     group.Name = Convert.ToString(reader["Name"]);
+                    group.Id_Faculty = Convert.ToInt32(reader["Id_Faculty"]);
 
                     groups.Add(group);
                 }
 
                 reader.Close();
                 return groups;
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+        }
+        //--------------------------------------------------------------------
+        public List<Faculties> GetFaculties()
+        {
+            try
+            {
+                SqlCommand command = _connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Faculties";
+                SqlDataReader reader = command.ExecuteReader();
+                List<Faculties> faculties = new List<Faculties>();
+
+                while (reader.Read())
+                {
+                    Faculties facultie = new Faculties();
+
+                    facultie.Id = Convert.ToInt32(reader["Id"]);
+                    facultie.Name = Convert.ToString(reader["Name"]);
+
+                    faculties.Add(facultie);
+                }
+
+                reader.Close();
+                return faculties;
             }
             catch (SqlException)
             {
@@ -130,7 +159,7 @@ namespace StudentWorkWithTran
                 if (result == DialogResult.Yes)
                 {
                     SqlCommand command = _connection.CreateCommand();
-                    command.CommandText = "DALETE FROM Students WHERE Id = @Id";
+                    command.CommandText = "DELETE FROM Students WHERE Id = @Id";
 
                     SqlParameter parameter = new SqlParameter("Id", Id);
                     command.Parameters.Add(parameter);
@@ -155,9 +184,7 @@ namespace StudentWorkWithTran
                 SqlCommand command = _connection.CreateCommand();
                 command.CommandText = "SELECT MAX(Id) + 1 FROM Students";
 
-                int MaxIndex = Convert.ToInt32(command.ExecuteScalar());
-
-                return MaxIndex;
+                return Convert.ToInt32(command.ExecuteScalar());
             }
             catch (SqlException)
             {
@@ -172,13 +199,63 @@ namespace StudentWorkWithTran
                 SqlCommand command = _connection.CreateCommand();
                 command.CommandText = "SELECT MAX(Id) + 1 FROM Groups";
 
-                int MaxIndex = Convert.ToInt32(command.ExecuteScalar());
-
-                return MaxIndex;
+                return Convert.ToInt32(command.ExecuteScalar());
             }
             catch (SqlException)
             {
                 return -1;
+            }
+        }
+        //--------------------------------------------------------------------
+        public bool AddStudentGroup(string FirstName, string LastName, int Term, int Id_Group = 0, string GroupName = "", int Id_Faculties = 0)
+        {
+            try
+            {
+                SqlTransaction transaction = _connection.BeginTransaction();
+
+                SqlCommand command = _connection.CreateCommand();
+                command.Transaction = transaction;
+
+                if (Id_Group != 0)
+                {
+                    Id_Group = GetNewGroupId();
+
+                    command.CommandText = "INSERT INTO Groups (Id, [Name], Id_Faculty) VALUES (@Id, @GroupName, @Id_Faculties)";
+                    command.Parameters.AddWithValue("Id", Id_Group);
+                    command.Parameters.AddWithValue("GroupName", GroupName);
+                    command.Parameters.AddWithValue("Id_Faculties", Id_Faculties);
+
+                    command.ExecuteNonQuery();
+                }
+
+                command.CommandText = "INSERT INTO Students (Id, FirstName, LastName, Term, Id_Group) VALUES (@Id, @FirstName, @LastName, @Term, @Id_Group)";
+                command.Parameters.AddWithValue("Id", GetNewStudId());
+                command.Parameters.AddWithValue("FirstName", FirstName);
+                command.Parameters.AddWithValue("LastName", LastName);
+                command.Parameters.AddWithValue("Term", Term);
+                command.Parameters.AddWithValue("Id_Group", Id_Group);
+
+                command.ExecuteNonQuery();
+
+                transaction.Commit();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+        }
+        //--------------------------------------------------------------------
+        public bool AddGroup(string GroupName, int Id_Faculties)
+        {
+            try
+            {
+
+            }
+            catch (SqlException)
+            {
+
+                throw;
             }
         }
         //--------------------------------------------------------------------

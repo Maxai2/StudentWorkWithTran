@@ -1,0 +1,11 @@
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe.config
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.exe
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\bin\Debug\StudentWorkWithTran.pdb
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csprojResolveAssemblyReference.cache
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.AddWindow.resources
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.fStudentWork.resources
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.Properties.Resources.resources
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.GenerateResource.Cache
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.csproj.CoreCompileInputs.cache
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.exe
+C:\Users\Mahm_iz81\Source\Repos\StudentWorkWithTran\StudentWorkWithTran\obj\Debug\StudentWorkWithTran.pdb
