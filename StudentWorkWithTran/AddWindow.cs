@@ -31,6 +31,7 @@ namespace StudentWorkWithTran
             _db = db;
 
             facultiesStud = new List<Faculties>();
+            facultiesGroup = new List<Faculties>();
 
             facultiesStud = _db.GetFaculties();
             facultiesGroup = _db.GetFaculties();
@@ -44,9 +45,7 @@ namespace StudentWorkWithTran
             cbFaculties.DataSource = facultiesStud;
             cbFaculties.DisplayMember = "Info";
             cbFaculties.ValueMember = "Id";
-
-            facultiesGroup = new List<Faculties>();
-
+            
             cbFacultiesForNewGroup.DataSource = facultiesGroup;
             cbFacultiesForNewGroup.DisplayMember = "Info";
             cbFacultiesForNewGroup.ValueMember = "Id";

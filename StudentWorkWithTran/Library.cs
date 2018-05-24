@@ -146,26 +146,30 @@ namespace StudentWorkWithTran
                 DbCommand command = _connection.CreateCommand();
                 command.CommandText = "UPDATE Students SET FirstName = @FirstName, LastName = @LastName, Term = @Term, Id_Group = @Id_Group WHERE Id = @Id";
 
-                DbParameter parameter = _factory.CreateParameter();
-                parameter.ParameterName = "FirstName";
-                parameter.Value = FirstName;
-                command.Parameters.Add(parameter);
+                DbParameter parameterFirstName = _factory.CreateParameter();
+                parameterFirstName.ParameterName = "FirstName";
+                parameterFirstName.Value = FirstName;
+                command.Parameters.Add(parameterFirstName);
 
-                parameter.ParameterName = "LastName";
-                parameter.Value = LastName;
-                command.Parameters.Add(parameter);
+                DbParameter parameterLastName = _factory.CreateParameter();
+                parameterLastName.ParameterName = "LastName";
+                parameterLastName.Value = LastName;
+                command.Parameters.Add(parameterLastName);
 
-                parameter.ParameterName = "Term";
-                parameter.Value = Term;
-                command.Parameters.Add(parameter);
+                DbParameter parameterTerm = _factory.CreateParameter();
+                parameterTerm.ParameterName = "Term";
+                parameterTerm.Value = Term;
+                command.Parameters.Add(parameterTerm);
 
-                parameter.ParameterName = "Id_Group";
-                parameter.Value = Id_Group;
-                command.Parameters.Add(parameter);
+                DbParameter parameterId_Group = _factory.CreateParameter();
+                parameterId_Group.ParameterName = "Id_Group";
+                parameterId_Group.Value = Id_Group;
+                command.Parameters.Add(parameterId_Group);
 
-                parameter.ParameterName = "Id";
-                parameter.Value = Id;
-                command.Parameters.Add(parameter);
+                DbParameter parameterId = _factory.CreateParameter();
+                parameterId.ParameterName = "Id";
+                parameterId.Value = Id;
+                command.Parameters.Add(parameterId);
 
                 command.ExecuteNonQuery();
 
@@ -179,13 +183,14 @@ namespace StudentWorkWithTran
         //--------------------------------------------------------------------
         public bool DeleteStudent(int Id)
         {
+            DbTransaction transaction = _connection.BeginTransaction();
+
             try
             {
                 var result = MessageBox.Show("When deleting a student, the records from the student card are deleted, you agree?", "Caution!", MessageBoxButtons.YesNo);
 
                 if (result == DialogResult.Yes)
                 {
-                    DbTransaction transaction = _connection.BeginTransaction();
 
                     DbCommand command = _connection.CreateCommand();
                     command.Transaction = transaction;
@@ -196,7 +201,6 @@ namespace StudentWorkWithTran
                     command.Parameters.Add(parameter);
 
                     command.CommandText = "DELETE FROM S_Cards WHERE Id_Student = @Id";
-                    command.Parameters.Add(parameter);
                     command.ExecuteNonQuery();
 
                     command.CommandText = "DELETE FROM Students WHERE Id = @Id";
@@ -210,20 +214,20 @@ namespace StudentWorkWithTran
             }
             catch (DbException)
             {
+                transaction.Rollback();
                 return false;
             }
         }
         //--------------------------------------------------------------------
         public bool AddStudentGroup(string FirstName, string LastName, int Term, int Id_Group = -1, string GroupName = "", int Id_Faculties = 0)
         {
+            DbTransaction transaction = _connection.BeginTransaction();
+
             try
             {
-                DbTransaction transaction = _connection.BeginTransaction();
-
                 DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
-                DbParameter parameter = _factory.CreateParameter();
 
                 if (Id_Group == -1)
                 {
@@ -235,17 +239,20 @@ namespace StudentWorkWithTran
 
                     command.CommandText = "INSERT INTO Groups (Id, [Name], Id_Faculty) VALUES (@Id, @GroupName, @Id_Faculties)";
 
-                    parameter.ParameterName = "Id";
-                    parameter.Value = Id_Group;
-                    command.Parameters.Add(parameter);
+                    DbParameter parameterIdGroup = _factory.CreateParameter();
+                    parameterIdGroup.ParameterName = "Id";
+                    parameterIdGroup.Value = Id_Group;
+                    command.Parameters.Add(parameterIdGroup);
 
-                    parameter.ParameterName = "GroupName";
-                    parameter.Value = GroupName;
-                    command.Parameters.Add(parameter);
+                    DbParameter parameterGroupName = _factory.CreateParameter();
+                    parameterGroupName.ParameterName = "GroupName";
+                    parameterGroupName.Value = GroupName;
+                    command.Parameters.Add(parameterGroupName);
 
-                    parameter.ParameterName = "Id_Faculties";
-                    parameter.Value = Id_Faculties;
-                    command.Parameters.Add(parameter);
+                    DbParameter parameterId_Faculties = _factory.CreateParameter();
+                    parameterId_Faculties.ParameterName = "Id_Faculties";
+                    parameterId_Faculties.Value = Id_Faculties;
+                    command.Parameters.Add(parameterId_Faculties);
 
                     command.ExecuteNonQuery();
                 }
@@ -255,26 +262,31 @@ namespace StudentWorkWithTran
                 int maxIndexStud = Convert.ToInt32(command.ExecuteScalar());
 
                 command.CommandText = "INSERT INTO Students (Id, FirstName, LastName, Term, Id_Group) VALUES (@Id, @FirstName, @LastName, @Term, @Id_Group)";
+                
+                DbParameter parameterIdStud = _factory.CreateParameter();
+                parameterIdStud.ParameterName = "Id";
+                parameterIdStud.Value = maxIndexStud;
+                command.Parameters.Add(parameterIdStud);
 
-                parameter.ParameterName = "Id";
-                parameter.Value = maxIndexStud;
-                command.Parameters.Add(parameter);
+                DbParameter parameterFirstName = _factory.CreateParameter();
+                parameterFirstName.ParameterName = "FirstName";
+                parameterFirstName.Value = FirstName;
+                command.Parameters.Add(parameterFirstName);
 
-                parameter.ParameterName = "FirstName";
-                parameter.Value = FirstName;
-                command.Parameters.Add(parameter);
+                DbParameter parameterLastName = _factory.CreateParameter();
+                parameterLastName.ParameterName = "LastName";
+                parameterLastName.Value = LastName;
+                command.Parameters.Add(parameterLastName);
 
-                parameter.ParameterName = "LastName";
-                parameter.Value = LastName;
-                command.Parameters.Add(parameter);
+                DbParameter parameterTerm = _factory.CreateParameter();
+                parameterTerm.ParameterName = "Term";
+                parameterTerm.Value = Term;
+                command.Parameters.Add(parameterTerm);
 
-                parameter.ParameterName = "Term";
-                parameter.Value = Term;
-                command.Parameters.Add(parameter);
-
-                parameter.ParameterName = "Id_Group";
-                parameter.Value = Id_Group;
-                command.Parameters.Add(parameter);
+                DbParameter parameterId_Group = _factory.CreateParameter();
+                parameterId_Group.ParameterName = "Id_Group";
+                parameterId_Group.Value = Id_Group;
+                command.Parameters.Add(parameterId_Group);
 
                 command.ExecuteNonQuery();
 
@@ -283,6 +295,7 @@ namespace StudentWorkWithTran
             }
             catch (DbException)
             {
+                transaction.Rollback();
                 return false;
             }
         }
@@ -295,19 +308,20 @@ namespace StudentWorkWithTran
 
                 command.CommandText = "INSERT INTO Groups (Id, Name, Id_Group) VALUES (@Id, @GroupName, @Id_Faculties)";
 
-                DbParameter parameter = _factory.CreateParameter();
+                DbParameter parameterId = _factory.CreateParameter();
+                parameterId.ParameterName = "Id";
+                parameterId.Value = GetNewGroupId();
+                command.Parameters.Add(parameterId);
 
-                parameter.ParameterName = "Id";
-                parameter.Value = GetNewGroupId();
-                command.Parameters.Add(parameter);
+                DbParameter parameterGroupName = _factory.CreateParameter();
+                parameterGroupName.ParameterName = "GroupName";
+                parameterGroupName.Value = GroupName;
+                command.Parameters.Add(parameterGroupName);
 
-                parameter.ParameterName = "GroupName";
-                parameter.Value = GroupName;
-                command.Parameters.Add(parameter);
-
-                parameter.ParameterName = "Id_Faculties";
-                parameter.Value = Id_Faculties;
-                command.Parameters.Add(parameter);
+                DbParameter parameterId_Faculties = _factory.CreateParameter();
+                parameterId_Faculties.ParameterName = "Id_Faculties";
+                parameterId_Faculties.Value = Id_Faculties;
+                command.Parameters.Add(parameterId_Faculties);
                 
                 command.ExecuteNonQuery();
 
@@ -321,10 +335,10 @@ namespace StudentWorkWithTran
         //--------------------------------------------------------------------
         public int GetNewGroupId()
         {
+            DbTransaction transaction = _connection.BeginTransaction();
+
             try
             {
-                DbTransaction transaction = _connection.BeginTransaction();
-
                 DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
@@ -335,16 +349,17 @@ namespace StudentWorkWithTran
             }
             catch (DbException)
             {
+                transaction.Rollback();
                 return -1;
             }
         }
         //--------------------------------------------------------------------
         public int GetNewStudId()
         {
+            DbTransaction transaction = _connection.BeginTransaction();
+
             try
             {
-                DbTransaction transaction = _connection.BeginTransaction();
-
                 DbCommand command = _connection.CreateCommand();
                 command.Transaction = transaction;
 
@@ -355,6 +370,7 @@ namespace StudentWorkWithTran
             }
             catch (DbException)
             {
+                transaction.Rollback();
                 return -1;
             }
         }
